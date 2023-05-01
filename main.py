@@ -114,6 +114,8 @@ def artist_pic(mw_parser_output):
                 image_a = thumb.find("a", {"class": "image"})
                 if image_a is not None:
                     urls = image_a["href"]
+                    down_img("wiki.biligame.com" + urls,"画师贺图、同人图合集")
+                    time.sleep(5)
                     # print(urls)
                     # print("\n")
                 else:
