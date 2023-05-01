@@ -77,9 +77,9 @@ def old_img(mw_parser_output):
         span_tmp=tmp.find('span', attrs={'class': 'panel-title pull-left'})
         span = span_tmp.find('span', attrs={'style': 'font-weight:bold;color: #31708f'})
         span_text= span.text
+        span_text=re.sub("\:|\*|\?|\/",",",span_text)
         #print(span_text)
         if not os.path.exists(span_text):
-            span_text=re.sub("\:|\*|\?|\/",",",span_text)
             os.makedirs(span_text)
         else:
             pass
