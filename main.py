@@ -56,25 +56,20 @@ def now_img(mw_parser_output):
 
     if not os.path.exists('当前登录图_过场图'):
         os.makedirs("当前登录图_过场图")
+    else:
+        pass
     print("Download 当前登录图_过场图")
     for image_link in image_links:
-        try:
-            # with open("当前登录图_过场图/test.txt", 'w', encoding='utf-8') as f:
-            #     f.write('Hello, world!')
-            time.sleep(5)
-            down_img("wiki.biligame.com" + image_link,"当前登录图_过场图")
-        except FileExistsError:
-            pass
+        # with open("当前登录图_过场图/test.txt", 'w', encoding='utf-8') as f:
+        #     f.write('Hello, world!')
+        time.sleep(5)
+        down_img("wiki.biligame.com" + image_link,"当前登录图_过场图")
     print("All 当前登录图_过场图 Download Success")
 
 #-------------old_img------------------
 def old_img(mw_parser_output):
     panel_group=mw_parser_output.find('div', attrs={'class': 'panel-group'})
     panel_info=panel_group.find_all('div', attrs={'class': 'panel panel-info'})
-    image_link = []
-    file_path = "output.txt"
-    if os.path.exists(file_path):
-        os.remove(file_path)
     print("Download 其他")
     total_pic=0
     counter=0
@@ -86,6 +81,8 @@ def old_img(mw_parser_output):
         if not os.path.exists(span_text):
             span_text=re.sub("\:|\*|\?|\/",",",span_text)
             os.makedirs(span_text)
+        else:
+            pass
         mw_gallery_traditiona_o = tmp.find('div', attrs={'class': 'panel-body panel-collapse collapse'})
         gallerybox_o = mw_gallery_traditiona_o.find_all('li', attrs={'class': 'gallerybox'})
 
@@ -103,21 +100,27 @@ def old_img(mw_parser_output):
 
 
 def artist_pic(mw_parser_output):
-    mw_gallery_packed_hover = mw_parser_output.find('ul', attrs={'class': 'gallery mw-gallery-packed-hover'})
-    gallerybox = mw_gallery_packed_hover.find_all('li', attrs={'class': 'gallerybox'})
+    mw_gallery_packed_hover = mw_parser_output.find_all('ul', attrs={'class': 'gallery mw-gallery-packed-hover'})
     if not os.path.exists("画师贺图、同人图合集"):
         os.makedirs("画师贺图、同人图合集")
+    else:
+        pass
     print("Download 画师贺图、同人图合集")
-    for tmp in gallerybox:
-        try:
-            thumb=tmp.find('div', attrs={'class': 'thumb'})
-            image_a = thumb.find("a", {"class": "image"})
-            urls = image_a["href"]
-            time.sleep(5)
-            down_img("wiki.biligame.com" + urls,"画师贺图、同人图合集")
-        except FileExistsError:
-            pass
-    print("All 画师贺图、同人图合集 Download Success")
+    with open('画师贺图、同人图合集/lost_pic.txt', 'w', encoding='utf-8') as f:
+        for i in mw_gallery_packed_hover :
+            gallerybox = i.find_all('li', attrs={'class': 'gallerybox'})
+            for tmp in gallerybox:
+                thumb=tmp.find('div', attrs={'class': 'thumb'})
+                image_a = thumb.find("a", {"class": "image"})
+                if image_a is not None:
+                    urls = image_a["href"]
+                    # print(urls)
+                    # print("\n")
+                else:
+                    print("Error: Could not extract URL from the following HTML:\n" + str(thumb) + "\n")
+                    f.write("Error: Could not extract URL from the following HTML:\n" + str(thumb) + "\n")
+        print("All 画师贺图、同人图合集 Download Success")
+
 
 
 def main():
