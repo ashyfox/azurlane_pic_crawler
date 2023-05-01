@@ -14,8 +14,6 @@ import re
 def set_url(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36"}
-
-    url = ("https://wiki.biligame.com/blhx/%E5%BD%B1%E7%94%BB%E7%9B%B8%E5%85%B3")
     http = urllib3.PoolManager()
     request = http.request('GET', url, headers=headers, retries=3)
     soup = BeautifulSoup(request.data, "html.parser")
@@ -107,7 +105,7 @@ def old_img(mw_parser_output):
 def artist_pic(mw_parser_output):
     mw_gallery_packed_hover = mw_parser_output.find('ul', attrs={'class': 'gallery mw-gallery-packed-hover'})
     gallerybox = mw_gallery_packed_hover.find_all('li', attrs={'class': 'gallerybox'})
-    if not os.path.exists():
+    if not os.path.exists("画师贺图、同人图合集"):
         os.makedirs("画师贺图、同人图合集")
     print("Download 画师贺图、同人图合集")
     for tmp in gallerybox:
